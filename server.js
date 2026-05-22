@@ -17,7 +17,21 @@ const usuariosRoutes  = require('./routes/usuarios');
 
 const app = express();
 
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:3001', 'http://192.168.1.214:3000', 'http://192.168.1.214:3001'] }));
+const ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://192.168.1.214:3000',
+  'http://192.168.1.214:3001',
+  'https://quirofanoapp.vercel.app',
+  ...(process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(o => o.trim()) : []),
+];
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+    cb(new Error(`CORS: origen no permitido — ${origin}`));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 // ── Rutas públicas ────────────────────────────────────────────────────────────
