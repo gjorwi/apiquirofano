@@ -8,7 +8,8 @@ router.get('/', async (req, res) => {
   try {
     const filter = {};
     if (req.query.caso) filter.caso = req.query.caso;
-    res.json(await Admision.find(filter).lean());
+    const adms = await Admision.find(filter).lean();
+    res.json(adms.map(a => ({ ...a, caso: String(a.caso) })));
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 

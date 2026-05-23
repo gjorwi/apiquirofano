@@ -11,6 +11,7 @@ const casoSchema = new Schema({
   paciente:              { type: Types.ObjectId, ref: 'Paciente', required: true },
   especialistaPrincipal: { type: Types.ObjectId, ref: 'Especialista', required: true },
   equipoQuirurgico:      [{ type: Types.ObjectId, ref: 'Especialista' }],
+  asistentesExternos:    [{ type: String }],
   diagnostico:           { type: Types.ObjectId, ref: 'Diagnostico' },
   procedimiento:         { type: Types.ObjectId, ref: 'Procedimiento' },
   duracionEstimadaMin:   { type: Number },
@@ -21,6 +22,8 @@ const casoSchema = new Schema({
   registradoPor:         { type: String, default: '' },
   aprobadoPor:           { type: String, default: '' },
   rechazadoPor:          { type: String, default: '' },
+  horaRealInicio:        { type: Date, default: null },
+  horaRealFin:           { type: Date, default: null },
 }, { timestamps: true });
 
 module.exports = model('Caso', casoSchema);

@@ -45,6 +45,8 @@ router.patch('/:id', async (req, res) => {
     const updates = { ...req.body };
     if (updates.estado === 'aprobada')  updates.aprobadoPor  = req.user?.nombre || '';
     if (updates.estado === 'rechazada') updates.rechazadoPor = req.user?.nombre || '';
+    if (updates.estado === 'en_curso')  updates.horaRealInicio = new Date();
+    if (updates.estado === 'finalizado') updates.horaRealFin  = new Date();
     const caso = await Caso.findByIdAndUpdate(req.params.id, { $set: updates }, { new: true, runValidators: true }).lean();
     if (!caso) return res.status(404).json({ error: 'Caso no encontrado' });
     res.json(caso);
