@@ -14,6 +14,7 @@ const casosRoutes     = require('./routes/casos');
 const planesRoutes    = require('./routes/planes');
 const admisionesRoutes = require('./routes/admisiones');
 const usuariosRoutes  = require('./routes/usuarios');
+const resetRoutes     = require('./routes/reset');
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/casos', casosRoutes);
 app.use('/api/planes', planesRoutes);
 app.use('/api/admisiones', admisionesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/reset',    resetRoutes);
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/health', (_, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
