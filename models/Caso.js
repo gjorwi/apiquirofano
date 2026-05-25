@@ -14,6 +14,8 @@ const casoSchema = new Schema({
   asistentesExternos:    [{ type: String }],
   diagnostico:           { type: Types.ObjectId, ref: 'Diagnostico' },
   procedimiento:         { type: Types.ObjectId, ref: 'Procedimiento' },
+  diagnosticoNombre:     { type: String, default: '' },
+  procedimientoNombre:   { type: String, default: '' },
   duracionEstimadaMin:   { type: Number },
   observaciones:         { type: String, default: '' },
   plan:                  { type: Types.ObjectId, ref: 'Plan', default: null },
