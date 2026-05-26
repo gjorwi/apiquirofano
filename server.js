@@ -15,6 +15,8 @@ const planesRoutes    = require('./routes/planes');
 const admisionesRoutes = require('./routes/admisiones');
 const usuariosRoutes  = require('./routes/usuarios');
 const resetRoutes     = require('./routes/reset');
+const settingsRoutes  = require('./routes/settings');
+const Setting         = require('./models/Setting');
 
 const app = express();
 
@@ -37,6 +39,13 @@ app.use(express.json());
 
 // ── Rutas públicas ────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
+app.get('/api/settings', async (req, res) => {
+  try {
+    let s = await Setting.findOne().lean();
+    if (!s) s = await Setting.create({});
+    res.json(s);
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
 
 // ── Rutas protegidas ──────────────────────────────────────────────────────────
 app.use('/api', authMiddleware);
@@ -47,6 +56,7 @@ app.use('/api/planes', planesRoutes);
 app.use('/api/admisiones', admisionesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/reset',    resetRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // ── Health check ──────────────────────────────────────────────────────────────
 app.get('/health', (_, res) => res.json({ status: 'ok', timestamp: new Date().toISOString() }));
