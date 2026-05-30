@@ -52,4 +52,30 @@ router.patch('/:id/toggle', requireRole('administrador'), async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+// PATCH /api/usuarios/:id/password — admin/directivo pueden cambiar cualquier contraseña, otros solo la suya
+router.patch('/:id/password', async (req, res) => {
+  try {
+    const targetId = req.params.id;
+    const { currentPassword, newPassword } = req.body;
+    const isSelf = req.user?.id === targetId;
+    const isAdminOrDirectivo = ['administrador', 'directivo'].includes(req.user?.rol);
+    if (!isSelf && !isAdminOrDirectivo) {
+      return res.status(403).json({ error: 'Solo puedes cambiar tu propia contraseña' });
+    }
+    if (!newPassword || newPassword.length < 4) {
+      return res.status(400).json({ error: 'La nueva contraseña debe tener al menos 4 caracteres' });
+    }
+    const user = await User.findById(targetId);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+    if (isSelf && !isAdminOrDirectivo) {
+      if (!currentPassword || !bcrypt.compareSync(currentPassword, user.password)) {
+        return res.status(400).json({ error: 'Contraseña actual incorrecta' });
+      }
+    }
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+    res.json({ message: 'Contraseña actualizada exitosamente' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 module.exports = router;

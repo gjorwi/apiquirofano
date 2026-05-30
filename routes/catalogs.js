@@ -13,7 +13,12 @@ function crud(path, Model, notFound) {
   });
 
   router.post(path, async (req, res) => {
-    try { res.status(201).json((await Model.create(req.body)).toObject()); }
+    try {
+      const doc = await Model.create(req.body);
+      const obj = doc.toObject();
+      console.log(`${Model.modelName} creado:`, JSON.stringify(obj));
+      res.status(201).json(obj);
+    }
     catch (err) { res.status(400).json({ error: err.message }); }
   });
 

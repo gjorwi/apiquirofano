@@ -48,14 +48,14 @@ async function seed() {
 
   // ── Pacientes ────────────────────────────────────────────────────────────────
   const [p1, p2, p3, p4, p5, p6, p7, p8] = await Paciente.insertMany([
-    { nombre: 'María López García',       identificacion: '0101-1985-12345', fechaNacimiento: '1985-03-15', sexo: 'Femenino',  contacto: '9999-1234', historiaClinica: 'HC-001' },
-    { nombre: 'Carlos Mendoza Rivera',    identificacion: '0201-1978-54321', fechaNacimiento: '1978-07-22', sexo: 'Masculino', contacto: '9888-5678', historiaClinica: 'HC-002' },
-    { nombre: 'Ana Sofía Ramos',          identificacion: '0301-1992-11111', fechaNacimiento: '1992-11-08', sexo: 'Femenino',  contacto: '9777-9012', historiaClinica: 'HC-003' },
-    { nombre: 'José Antonio Herrera',     identificacion: '0401-1965-22222', fechaNacimiento: '1965-04-30', sexo: 'Masculino', contacto: '9666-3456', historiaClinica: 'HC-004' },
-    { nombre: 'Lucía Fernández Blanco',   identificacion: '0501-1990-33333', fechaNacimiento: '1990-09-18', sexo: 'Femenino',  contacto: '9555-7890', historiaClinica: 'HC-005' },
-    { nombre: 'Roberto Castillo Mora',    identificacion: '0601-1973-44444', fechaNacimiento: '1973-01-25', sexo: 'Masculino', contacto: '9444-2345', historiaClinica: 'HC-006' },
-    { nombre: 'Patricia Villanueva Cruz', identificacion: '0701-1988-55555', fechaNacimiento: '1988-06-12', sexo: 'Femenino',  contacto: '9333-6789', historiaClinica: 'HC-007' },
-    { nombre: 'Miguel Ángel Torres',      identificacion: '0801-1995-66666', fechaNacimiento: '1995-12-03', sexo: 'Masculino', contacto: '9222-0123', historiaClinica: 'HC-008' },
+    { nombre: 'María López García',       identificacion: '0101-1985-12345', email: 'maria.lopez@gmail.com',    fechaNacimiento: '1985-03-15', sexo: 'Femenino',  contacto: '9999-1234', historiaClinica: 'HC-001' },
+    { nombre: 'Carlos Mendoza Rivera',    identificacion: '0201-1978-54321', email: 'carlos.mendoza@gmail.com',  fechaNacimiento: '1978-07-22', sexo: 'Masculino', contacto: '9888-5678', historiaClinica: 'HC-002' },
+    { nombre: 'Ana Sofía Ramos',          identificacion: '0301-1992-11111', email: 'ana.ramos@gmail.com',       fechaNacimiento: '1992-11-08', sexo: 'Femenino',  contacto: '9777-9012', historiaClinica: 'HC-003' },
+    { nombre: 'José Antonio Herrera',     identificacion: '0401-1965-22222', email: 'jose.herrera@gmail.com',    fechaNacimiento: '1965-04-30', sexo: 'Masculino', contacto: '9666-3456', historiaClinica: 'HC-004' },
+    { nombre: 'Lucía Fernández Blanco',   identificacion: '0501-1990-33333', email: 'lucia.fernandez@gmail.com', fechaNacimiento: '1990-09-18', sexo: 'Femenino',  contacto: '9555-7890', historiaClinica: 'HC-005' },
+    { nombre: 'Roberto Castillo Mora',    identificacion: '0601-1973-44444', email: 'roberto.castillo@gmail.com', fechaNacimiento: '1973-01-25', sexo: 'Masculino', contacto: '9444-2345', historiaClinica: 'HC-006' },
+    { nombre: 'Patricia Villanueva Cruz', identificacion: '0701-1988-55555', email: 'patricia.villanueva@gmail.com', fechaNacimiento: '1988-06-12', sexo: 'Femenino',  contacto: '9333-6789', historiaClinica: 'HC-007' },
+    { nombre: 'Miguel Ángel Torres',      identificacion: '0801-1995-66666', email: 'miguel.torres@gmail.com',    fechaNacimiento: '1995-12-03', sexo: 'Masculino', contacto: '9222-0123', historiaClinica: 'HC-008' },
   ]);
   console.log('✅ 8 pacientes');
 

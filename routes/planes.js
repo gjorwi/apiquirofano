@@ -22,8 +22,8 @@ router.get('/:id', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-// POST /api/planes — solo administrador puede programar
-router.post('/', requireRole('administrador'), async (req, res) => {
+// POST /api/planes — administrador, directivo o coordinador puede programar
+router.post('/', requireRole('administrador', 'directivo', 'coordinador'), async (req, res) => {
   try {
     if (!req.body.caso) return res.status(400).json({ error: 'Campo caso requerido' });
     const plan = await Plan.create({ ...req.body, programadoPor: req.user?.nombre || '' });
@@ -37,8 +37,8 @@ router.post('/', requireRole('administrador'), async (req, res) => {
   } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
-// PUT /api/planes/:id
-router.put('/:id', async (req, res) => {
+// PUT /api/planes/:id — administrador, directivo o coordinador puede reprogramar
+router.put('/:id', requireRole('administrador', 'directivo', 'coordinador'), async (req, res) => {
   try {
     const plan = await Plan.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }).lean();
     if (!plan) return res.status(404).json({ error: 'Plan no encontrado' });
