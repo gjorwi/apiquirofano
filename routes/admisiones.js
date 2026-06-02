@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST /api/admisiones — solo personal de admisión y administrador
-router.post('/', requireRole('admision', 'administrador'), async (req, res) => {
+router.post('/', requireRole('admision', 'administrador', 'directivo'), async (req, res) => {
   try {
     if (!req.body.caso) return res.status(400).json({ error: 'Campo caso requerido' });
     const admision = await Admision.create({ ...req.body, ingresadoPor: req.user?.nombre || '' });

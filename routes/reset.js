@@ -7,6 +7,7 @@ const Quirofano   = require('../models/Quirofano');
 const Procedimiento=require('../models/Procedimiento');
 const Diagnostico = require('../models/Diagnostico');
 const Insumo      = require('../models/Insumo');
+const Baremo      = require('../models/Baremo');
 const Caso        = require('../models/Caso');
 const Plan        = require('../models/Plan');
 const Admision    = require('../models/Admision');
@@ -30,6 +31,7 @@ router.delete('/quirofanos',    admin, del(Quirofano));
 router.delete('/procedimientos',admin, del(Procedimiento));
 router.delete('/diagnosticos',  admin, del(Diagnostico));
 router.delete('/insumos',       admin, del(Insumo));
+router.delete('/baremos',        admin, del(Baremo));
 
 // Operaciones (cascada lógica: eliminar admisiones y planes primero)
 router.delete('/admisiones',    admin, del(Admision));

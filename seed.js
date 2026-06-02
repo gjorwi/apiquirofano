@@ -17,6 +17,7 @@ const Caso          = require('./models/Caso');
 const Plan          = require('./models/Plan');
 const Admision      = require('./models/Admision');
 const User          = require('./models/User');
+const Baremo        = require('./models/Baremo');
 
 async function seed() {
   await connectDB();
@@ -33,6 +34,7 @@ async function seed() {
     Plan.deleteMany({}),
     Admision.deleteMany({}),
     User.deleteMany({}),
+    Baremo.deleteMany({}),
   ]);
 
   // ── Especialistas ────────────────────────────────────────────────────────────
@@ -195,6 +197,21 @@ async function seed() {
   ]);
   console.log('✅ 2 admisiones');
 
+  // ── Baremos ──────────────────────────────────────────────────────────────────
+  const XLSX = require('xlsx');
+  const wb = XLSX.readFile('../baremo_de_dias_maximos_de_incapacidad_2016.xlsx');
+  const ws = wb.Sheets['TIEMPO MAXIMO DE REPOSO'];
+  const raw = XLSX.utils.sheet_to_json(ws, { header: 1 }).slice(1);
+  const baremosData = raw
+    .filter(r => r[3] === 'ACTIVO')
+    .map(r => ({
+      codigo: String(r[1]).split(' - ')[0].trim(),
+      diagnostico: String(r[4]).trim(),
+      diasReposo: Number(r[5]) || 0,
+    }));
+  await Baremo.insertMany(baremosData);
+  console.log(`✅ ${baremosData.length} baremos`);
+
   // ── Usuarios ─────────────────────────────────────────────────────────────────
   const PASS = (p) => bcrypt.hashSync(p, 10);
   await User.insertMany([
@@ -207,8 +224,9 @@ async function seed() {
     { nombre: 'Dra. Isabel Vargas',   username: 'dr.vargas',    password: PASS('pass123'),  rol: 'especialista',  especialistaId: e6._id,   activo: true },
     { nombre: 'Enf. Rosa Jiménez',    username: 'admision1',    password: PASS('pass123'),  rol: 'admision',      especialistaId: null,     activo: true },
     { nombre: 'Enf. Pedro Acosta',    username: 'admision2',    password: PASS('pass123'),  rol: 'admision',      especialistaId: null,     activo: true },
+    { nombre: 'Usuario Baremo',       username: 'baremo',      password: PASS('pass123'),  rol: 'baremo',       especialistaId: null,     activo: true },
   ]);
-  console.log('✅ 9 usuarios');
+  console.log('✅ 10 usuarios');
 
   console.log('\n🎉 Seed completado exitosamente');
   console.log('──────────────────────────────────────────');
